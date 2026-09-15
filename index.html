@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анализ последовательностей чисел</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Анализ монотонности наборов чисел</h1>
+  <p>Введите количество наборов K, затем введите сами наборы (каждый набор завершается числом 0):</p>
+
+  <label for="kValue">Количество наборов (K):</label>
+  <input type="number" id="kValue" min="1" placeholder="Например: 3">
+
+  <label for="setsInput">Наборы чисел (каждая строка — отдельный набор, завершающийся 0):</label>
+  <textarea id="setsInput" placeholder="Пример:&#10;1 3 5 7 0&#10;10 8 4 1 0&#10;2 5 3 8 0"></textarea>
+
+  <button id="processBtn">Обработать</button>
+
+  <div id="output" class="result" style="display: none;"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
