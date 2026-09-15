@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     validateMinLength(setsInput, errorDiv);
   });
 
-  // Запуск обработки по нажатию на кнопку
   processBtn.addEventListener('click', () => {
     if (validateMinLength(setsInput, errorDiv)) {
       processSequences();
