@@ -1,15 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
   const processBtn = document.getElementById('processBtn');
-  processBtn.addEventListener('click', processSequences);
+  const setsInput = document.getElementById('setsInput');
+  const errorDiv = document.getElementById('minLengthError');
+
+
+  setsInput.addEventListener('input', () => {
+    validateMinLength(setsInput, errorDiv);
+  });
+
+  // Запуск обработки по нажатию на кнопку
+  processBtn.addEventListener('click', () => {
+    if (validateMinLength(setsInput, errorDiv)) {
+      processSequences();
+    }
+  });
 });
 
-function analyzeSet(numbers) {
-  // Удаляем завершающий 0 для проверки
-  const zeroIndex = numbers.indexOf(0);
-  const seq = zeroIndex !== -1 ? numbers.slice(0, zeroIndex) : numbers;
 
-  if (seq.length < 2) return 0;
+function validateMinLength(inputElement, errorElement) {
+  const minLength = 3;
+  const value = inputElement.value.trim();
 
+  if (value.length < minLength) {
+    if (errorElement) {
+      errorElement.textContent = `Ошибка: минимальное количество символов — ${minLength}.`;
+      errorElement.style.display = 'block';
+    }
+    inputElement.classList.add('invalid');
+    return false;
+  } else {
+    if (errorElement) {
+      errorElement.style.display = 'none';
+    }
+    inputElement.classList.remove('invalid');
+    return true;
+  }
+}
+
+
+function analyzeSet(seq) {
   let isIncreasing = true;
   let isDecreasing = true;
 
@@ -40,7 +69,7 @@ function processSequences() {
     return;
   }
 
-  let resultsHTML = '<strong>Результаты:</strong><br><br>';
+  let resultsHTML = '<strong>Результаты обработки:</strong><br><br>';
 
   for (let i = 0; i < k; i++) {
     const numbers = lines[i]
@@ -49,7 +78,19 @@ function processSequences() {
       .map(Number)
       .filter(n => !isNaN(n));
 
-    const res = analyzeSet(numbers);
+    if (numbers.length === 0 || numbers[numbers.length - 1] !== 0) {
+      resultsHTML += `<div class="result-item" style="color: #d9534f;"><strong>Набор ${i + 1}:</strong> Ошибка — набор должен завершаться числом 0!</div>`;
+      continue;
+    }
+
+    const seq = numbers.slice(0, numbers.length - 1);
+
+    if (seq.length < 2) {
+      resultsHTML += `<div class="result-item" style="color: #d9534f;"><strong>Набор ${i + 1}:</strong> Ошибка — должно быть минимум 2 числа до завершающего 0 (введено: ${seq.length}).</div>`;
+      continue;
+    }
+
+    const res = analyzeSet(seq);
     let statusText = '';
     if (res === 1) statusText = 'Возрастает (1)';
     else if (res === -1) statusText = 'Убывает (-1)';

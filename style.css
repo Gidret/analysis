@@ -85,3 +85,16 @@ button:hover {
   margin-bottom: 8px;
   font-size: 14px;
 }
+
+.error-message {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 5px;
+  display: none;
+}
+
+
+textarea.invalid {
+  border-color: #e74c3c;
+  outline: none;
+}
